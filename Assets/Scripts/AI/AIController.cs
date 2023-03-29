@@ -227,7 +227,7 @@ public class AIController : MonoBehaviour {
     private void OnDestroy()
     {
 		GameObject[] e = GameObject.FindGameObjectsWithTag("Enemy");
-		playerStatus.SetEnemies(e);
+		//playerStatus.SetEnemies(e);
 		Debug.Log(e.Length);
 	}
 

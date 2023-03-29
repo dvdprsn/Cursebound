@@ -13,17 +13,23 @@ public class ThirdPersonScript : MonoBehaviour
     float turnSmoothVelocity;
     public Animator animator;
 
-    // Update is called once per frame
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
+    public void MoveTo(Vector3 pos)
+    {
+        controller.Move(pos);
+    }
+
     void Update()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        Vector3 gravForce = new Vector3(0f, gravity, 0f);
+        controller.Move(gravForce * Time.deltaTime);
 
         if(direction.magnitude >= 0.1)
         {
@@ -32,8 +38,6 @@ public class ThirdPersonScript : MonoBehaviour
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            // Gravity works but needs to happen outside of movement
-            moveDirection.y += gravity * Time.deltaTime;
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 controller.Move(moveDirection.normalized * runSpeed * Time.deltaTime);
@@ -50,7 +54,5 @@ public class ThirdPersonScript : MonoBehaviour
             animator.SetBool("isMoving", false);
 
         }
-
-        
     }
 }

@@ -39,7 +39,9 @@ public class Spell : MonoBehaviour
                 Destroy(enemyHealth.gameObject);
             }
         }
-       
-        Destroy(this.gameObject);
+        if (!other.gameObject.CompareTag("GameElement"))
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

@@ -30,7 +30,6 @@ public class HealthComponent : MonoBehaviour
         if (currentHealth <= 0)
         {
             isDead = true;
-            //Destroy(this.gameObject);
         }
     }
 }

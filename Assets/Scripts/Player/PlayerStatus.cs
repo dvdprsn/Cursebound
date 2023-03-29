@@ -15,7 +15,9 @@ public class PlayerStatus : MonoBehaviour {
 
 	private bool dead = false;
 
-	private PlayerController playerController;
+	private ThirdPersonScript controller;
+	private Transform spawnPoint;
+
 	public void AddSouls(float souls)
     {
 		soulBalance += souls;
@@ -34,14 +36,9 @@ public class PlayerStatus : MonoBehaviour {
 		return health;
 	}
 
-	public void SetEnemies(GameObject[] e)
-    {
-		playerController.Enemies = e;
-    }
-
     void Start()
     {
-        playerController = GetComponent<PlayerController>();
+		controller = GetComponent<ThirdPersonScript>();
     }
 
 
@@ -56,30 +53,23 @@ public class PlayerStatus : MonoBehaviour {
 		}
 	}
     
-	IEnumerator  Die(){
+	IEnumerator Die(){
 		dead = true;
 		print("Dead!");
-		HideCharacter();
+
+		// Tele back to spawn point
+		controller.MoveTo(spawnPoint.position);
+
+		// Remove all enemies
+		// Spawn all enemies
+		// Show shop
+		// Release cursor
+		// Once shop is closed , lock cursor and hide ui
+
 		yield return new WaitForSeconds(10);
 		print("Alive!");
-		//playerController.Respawn();
-		ShowCharacter();
 		health = maxHealth;
 		dead = false;
-	}
-	
-	void HideCharacter(){	
-	
-		playerController.IsControllable = false;
-		
-	}
-	
-	
-	
-	void ShowCharacter(){
-
-
-		playerController.IsControllable = true;
 	}
 	
 }

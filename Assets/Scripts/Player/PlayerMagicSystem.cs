@@ -12,6 +12,7 @@ public class PlayerMagicSystem : MonoBehaviour
     [SerializeField] private float timeToCast = 0.25f;
 
     [SerializeField] private Transform castPoint;
+
     private bool castingMagic = false;
     private float currentCastTimer;
     public Animator animator;
@@ -30,7 +31,6 @@ public class PlayerMagicSystem : MonoBehaviour
             castingMagic = true;
             currentMana -= spellToCast.spellToCast.ManaCost;
             currentCastTimer = 0;
-            //spellToCast.spellToCast.Damage *= 
             CastSpell();
             animator.SetBool("isAttacking", true);
         }
