@@ -9,12 +9,12 @@ public class Spell : MonoBehaviour
     public SpellSO spellToCast;
     private SphereCollider myCollider;
     private Rigidbody myRigidBody;
+    public PlayerStatus pStats;
     private void Awake()
     {
         myCollider = GetComponent<SphereCollider>();
         myCollider.isTrigger = true;
         myCollider.radius = spellToCast.SpellRadius;
-
         myRigidBody = GetComponent<Rigidbody>();
         myRigidBody.isKinematic = true;
 
@@ -32,8 +32,14 @@ public class Spell : MonoBehaviour
         {
             HealthComponent enemyHealth = other.GetComponent<HealthComponent>();
             // Could add player dmg multiplier here!
-            enemyHealth.TakeDamage(spellToCast.Damage);
+            enemyHealth.TakeDamage(spellToCast.Damage * pStats.GetDmgMul());
+            if(enemyHealth.IsDead())
+            {
+                pStats.AddSouls(enemyHealth.getSoulValue());
+                Destroy(enemyHealth.gameObject);
+            }
         }
+       
         Destroy(this.gameObject);
     }
 }

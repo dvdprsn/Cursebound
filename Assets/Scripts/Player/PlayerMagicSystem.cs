@@ -18,6 +18,7 @@ public class PlayerMagicSystem : MonoBehaviour
     private void Awake()
     {
         currentMana = maxMana;
+        spellToCast.pStats = GetComponent<PlayerStatus>();
     }
 
     void Update()
@@ -29,6 +30,7 @@ public class PlayerMagicSystem : MonoBehaviour
             castingMagic = true;
             currentMana -= spellToCast.spellToCast.ManaCost;
             currentCastTimer = 0;
+            //spellToCast.spellToCast.Damage *= 
             CastSpell();
             animator.SetBool("isAttacking", true);
         }
