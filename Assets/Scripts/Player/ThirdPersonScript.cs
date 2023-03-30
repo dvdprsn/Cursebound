@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class ThirdPersonScript : MonoBehaviour
 {
-    public CharacterController controller;
-    private GameObject player; 
+    private CharacterController controller;
     public Transform cam;
     public float speed = 6f;
     public float runSpeed = 12f;
     private float gravity = -9.81f;
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
-    public Animator animator;
+    private Animator animator;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        player = GameObject.FindGameObjectWithTag("Player");
+        controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
     public void MoveTo(Vector3 pos)
     {
+
         controller.enabled = false;
         controller.transform.position = pos;
         controller.enabled = true;
+
     }
 
     void Update()
