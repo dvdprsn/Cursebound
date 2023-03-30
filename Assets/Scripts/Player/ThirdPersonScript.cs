@@ -5,6 +5,7 @@ using UnityEngine;
 public class ThirdPersonScript : MonoBehaviour
 {
     public CharacterController controller;
+    private GameObject player; 
     public Transform cam;
     public float speed = 6f;
     public float runSpeed = 12f;
@@ -16,10 +17,13 @@ public class ThirdPersonScript : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
     public void MoveTo(Vector3 pos)
     {
-        controller.Move(pos);
+        controller.enabled = false;
+        controller.transform.position = pos;
+        controller.enabled = true;
     }
 
     void Update()

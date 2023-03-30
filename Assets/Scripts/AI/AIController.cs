@@ -6,31 +6,33 @@ public class AIController : MonoBehaviour {
 	public float fov = 160.0f;
 	private float rotationSpeed = 5.0f;
 
-	private float 			attackSpeed = 0.8f;
+	private float 			attackSpeed = 1.2f;
 	private float 			gravity = 50.0f;
-	private float			attackValue = 5.0f;
+	public float			attackValue = 20.0f;
 
 	private float attackDistance = 1.5f;
-	private float sightDistance = 12.0f;
+	private float sightDistance = 9.0f;
 	private float walkDistance = 2.5f;
+
+	private GameObject player;
 
 	private CharacterController controller;
 	private PlayerStatus	playerStatus;
 	private Transform		target;
 	private Vector3			moveDirection = new Vector3(0,0,0);
 	private State			currentState;
-	private Animation		anim;
+
+	private HealthComponent health;
+
+	private Animator animator;
 
 	private bool			isControllable = true;
 	private bool			isDead = false;
+	private bool deathStarted = false;
 	private bool inDanger = false;
 
 	private bool hasAttacked = false;
 	private float attackTimer = 0f;
-
-	//This is a hack for legacy animation - we will do this properly later
-	private bool			deathStarted = false; 
-
 
 	public bool 	IsControllable {
 		get {return isControllable;}
@@ -48,8 +50,17 @@ public class AIController : MonoBehaviour {
 		get { return inDanger; }
 		set { inDanger = value; }
     }
-
-	// My A1 Rotation script
+	void ResetAnimationTriggers()
+    {
+		foreach (var trigger in animator.parameters)
+        {
+			if(trigger.type == AnimatorControllerParameterType.Bool)
+            {
+				animator.SetBool(trigger.name, false);
+            }
+        }
+    }
+ 	// My A1 Rotation script
 	private void RotateTowards(Vector3 target, bool inverse)
 	{
 		Quaternion targetRotation;
@@ -73,19 +84,18 @@ public class AIController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		controller = GetComponent< CharacterController>();
-		anim = GetComponent<Animation>();
-		GameObject tmp = GameObject.FindWithTag("Player");
-		if (tmp != null){
-			target=tmp.transform;
-			playerStatus = tmp.GetComponent< PlayerStatus>();
-		}
-
+		player = GameObject.FindGameObjectWithTag("Player");
+		controller = GetComponent<CharacterController>();
+		animator = GetComponent<Animator>();
+		target = player.transform;
+		playerStatus = player.GetComponent<PlayerStatus>();
 		ChangeState(new StateIdle());
 	}
 	
 	public void ChangeState(State newState){
 		currentState = newState;
+		//Set all flags to False for animation
+		ResetAnimationTriggers();
 	}
 
 	// == Conditions for State Machine == 
@@ -126,36 +136,26 @@ public class AIController : MonoBehaviour {
 	// === STATE LOGIC === 
 	public void Run()
     {
+		animator.SetBool("isRunning", true);
+
 		Vector3 direction = (target.position - controller.transform.position).normalized;
-		anim["run"].speed = 1f;
-		if (!anim.IsPlaying("run"))
-		{
-			anim.CrossFade("run", 0.2f);
-		}
-		moveDirection = direction * 1.8f;
+
+		moveDirection = direction * 3f;
 		RotateTowards(target.position, false);
 	}
 
 	public void Walk()
     {
+		animator.SetBool("isWalking", true);
 		Vector3 direction = (target.position - controller.transform.position).normalized;
-        anim["run"].speed = 0.5f;
-        if (!anim.IsPlaying("run"))
-        {
-			anim.CrossFade("run", 0.2f);
-		}
-		moveDirection = direction;
+		moveDirection = direction * 1.8f;
 		RotateTowards(target.position, false);
 	}
 
 	public void RunAway()
     {
 		Vector3 direction = (target.position - controller.transform.position).normalized;
-		anim["run"].speed = 1f;
-		if (!anim.IsPlaying("run"))
-		{
-			anim.CrossFade("run", 0.2f);
-		}
+
 		moveDirection = -direction * 1.8f;
 
 		RotateTowards(target.position, true);
@@ -166,69 +166,52 @@ public class AIController : MonoBehaviour {
     {
 		moveDirection = new Vector3(0, 0, 0);
 		RotateTowards(target.position, false);
-
-		// We use a timer to ensure that enough of the animation has played to apply damage
-		// Prevents too much damage being applied when moving between walk and attack states
 		attackTimer += Time.deltaTime;
-
-		if (!anim.IsPlaying("attack"))
+		// If animation is not playing
+		if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
-			attackTimer = 0f;
 			hasAttacked = false;
-			anim.CrossFade("attack", 0.1f);
-
+            animator.SetBool("isAttacking", true);
+			attackTimer = 0f;
 		}
-		if (attackTimer >= attackSpeed && !hasAttacked)
+		if(attackTimer >= attackSpeed && !hasAttacked)
         {
 			playerStatus.ApplyDamage(attackValue);
 			hasAttacked = true;
-		}
-    }
+			animator.SetBool("isAttacking", false);
+        }
+
+	}
 
 	public void BeDead(){
-		//This is a hack for legacy animation - we will do this properly later
-		if (!deathStarted)
+		if (deathStarted)
 		{
-			anim.CrossFade("die", 0.1f);
-			deathStarted = true;
-			CharacterController controller = GetComponent<CharacterController>();
 			controller.enabled = false;
-
+			if (animator.GetCurrentAnimatorStateInfo(0).IsName("Done"))
+			{
+				Destroy(this.gameObject);
+			}
 		}
-		moveDirection = new Vector3(0,0,0);
-		if (!anim.isPlaying)
+		if (!deathStarted)
         {
-			gameObject.SetActive(false);
-			this.IsControllable = false;
+			animator.SetTrigger("Dead");
+			deathStarted = true;
+			this.isControllable = false;
 		}
+
 	}
 	
 	public void BeIdle(){
-		anim.CrossFade("idle", 0.2f);	
 		moveDirection = new Vector3(0,0,0);
 	}
 
 	void Update () {
-		if (!isControllable)
-			return;
-		currentState.Execute(this);	
+
+		currentState.Execute(this);
+		if (!isControllable) return;
 		moveDirection.y -= gravity*Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
 
     }
-
-	// == Game Object Cleanup == 
-	void OnDisable()
-	{
-		Destroy(gameObject);
-        playerStatus.AddHealth(10);
-	}
-
-    private void OnDestroy()
-    {
-		GameObject[] e = GameObject.FindGameObjectsWithTag("Enemy");
-		//playerStatus.SetEnemies(e);
-		Debug.Log(e.Length);
-	}
 
 }

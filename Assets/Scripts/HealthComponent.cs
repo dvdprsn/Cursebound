@@ -8,6 +8,7 @@ public class HealthComponent : MonoBehaviour
     private float currentHealth;
     private bool isDead = false;
     public float soulValue = 5f;
+    private AIController controller;
 
     public float getSoulValue()
     {
@@ -21,6 +22,7 @@ public class HealthComponent : MonoBehaviour
 
     private void Awake()
     {
+        controller = GetComponent<AIController>();
         currentHealth = MaxHealth;
     }
 
@@ -29,7 +31,10 @@ public class HealthComponent : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
+            // Trigger death animation
+            controller.IsDead = true;
             isDead = true;
+
         }
     }
 }

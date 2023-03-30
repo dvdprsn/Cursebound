@@ -6,10 +6,8 @@ public class PlayerMagicSystem : MonoBehaviour
 {
 
     [SerializeField] public Spell spellToCast;
-    [SerializeField] private float maxMana = 100f;
-    [SerializeField] private float currentMana;
-    [SerializeField] private float manaRecharageRate = 2f;
-    [SerializeField] private float timeToCast = 0.25f;
+
+    private PlayerStatus pStats; 
 
     [SerializeField] private Transform castPoint;
 
@@ -18,18 +16,19 @@ public class PlayerMagicSystem : MonoBehaviour
     public Animator animator;
     private void Awake()
     {
-        currentMana = maxMana;
+        pStats = GetComponent<PlayerStatus>();
+        pStats.SetCurrentMana(pStats.GetMaxMana);
         spellToCast.pStats = GetComponent<PlayerStatus>();
     }
 
     void Update()
     {
         bool isCastingButtonPressed = Input.GetKey(KeyCode.Mouse0);
-        bool hasMana = currentMana - spellToCast.spellToCast.ManaCost >= 0f;
+        bool hasMana = pStats.GetCurrentMana - spellToCast.spellToCast.ManaCost >= 0f;
         if (!castingMagic && isCastingButtonPressed && hasMana)
         {
             castingMagic = true;
-            currentMana -= spellToCast.spellToCast.ManaCost;
+            pStats.SetCurrentMana(pStats.GetCurrentMana - spellToCast.spellToCast.ManaCost);
             currentCastTimer = 0;
             CastSpell();
             animator.SetBool("isAttacking", true);
@@ -37,19 +36,18 @@ public class PlayerMagicSystem : MonoBehaviour
         if(castingMagic)
         {
             currentCastTimer += Time.deltaTime;
-            if (currentCastTimer > timeToCast) castingMagic = false;
+            if (currentCastTimer > pStats.GetTimeToCast) castingMagic = false;
 
         }
 
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) animator.SetBool("isAttacking", false);
 
-        if (currentMana < maxMana) currentMana += manaRecharageRate * Time.deltaTime;
+        if (pStats.GetCurrentMana < pStats.GetMaxMana) pStats.SetCurrentMana(pStats.GetCurrentMana + pStats.GetManaRechargeRate * Time.deltaTime);
     }
 
     void CastSpell()
     {
         // CAST HERE
         Instantiate(spellToCast, castPoint.position, castPoint.rotation);
-
     }
 }

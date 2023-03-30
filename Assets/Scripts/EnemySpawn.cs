@@ -12,6 +12,7 @@ public class EnemySpawn : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            // If the room is not cleared entirely it will respawn the room 
             if(numToSpawn != 0)
             {
                 numToSpawn = Random.Range(numToSpawn, numToSpawn + 5);
@@ -19,8 +20,8 @@ public class EnemySpawn : MonoBehaviour
             for (int x = 0; x < numToSpawn; x++)
             {
                 Vector3 var = spawnPoint.position;
-                var.x += Random.Range(0, -10);
-                var.z += Random.Range(0, 10);
+                var.x += Random.Range(0, -7);
+                var.z += Random.Range(0, 7);
                 Instantiate(prefab, var, spawnPoint.rotation);
             }
         }
