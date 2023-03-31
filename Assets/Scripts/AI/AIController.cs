@@ -108,7 +108,6 @@ public class AIController : MonoBehaviour {
         }
 		return true;
 	}
-
 	public Boolean EnemySeen()
     {
         Vector3 d = target.position - controller.transform.position;
@@ -123,7 +122,6 @@ public class AIController : MonoBehaviour {
 		return false;
 
     }
-
 	public Boolean EnemyInRange()
     {
 		if (Vector3.Distance(target.position, controller.transform.position) <= attackDistance)
@@ -132,8 +130,6 @@ public class AIController : MonoBehaviour {
         } 
 		return false;
     }
-
-	// === STATE LOGIC === 
 	public void Run()
     {
 		animator.SetBool("isRunning", true);
@@ -143,7 +139,6 @@ public class AIController : MonoBehaviour {
 		moveDirection = direction * 3f;
 		RotateTowards(target.position, false);
 	}
-
 	public void Walk()
     {
 		animator.SetBool("isWalking", true);
@@ -151,17 +146,15 @@ public class AIController : MonoBehaviour {
 		moveDirection = direction * 1.8f;
 		RotateTowards(target.position, false);
 	}
-
+	// TODO Probably dont want them running away
 	public void RunAway()
     {
+		animator.SetBool("isRunning", true);
 		Vector3 direction = (target.position - controller.transform.position).normalized;
-
 		moveDirection = -direction * 1.8f;
-
 		RotateTowards(target.position, true);
 
 	}
-
 	public void Attack()
     {
 		moveDirection = new Vector3(0, 0, 0);
@@ -180,9 +173,7 @@ public class AIController : MonoBehaviour {
 			hasAttacked = true;
 			animator.SetBool("isAttacking", false);
         }
-
 	}
-
 	public void BeDead(){
 		if (deathStarted)
 		{
@@ -198,20 +189,14 @@ public class AIController : MonoBehaviour {
 			deathStarted = true;
 			this.isControllable = false;
 		}
-
 	}
-	
 	public void BeIdle(){
 		moveDirection = new Vector3(0,0,0);
 	}
-
 	void Update () {
-
 		currentState.Execute(this);
 		if (!isControllable) return;
 		moveDirection.y -= gravity*Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
-
     }
-
 }

@@ -12,7 +12,6 @@ public class ThirdPersonScript : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
     private Animator animator;
-
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -21,13 +20,10 @@ public class ThirdPersonScript : MonoBehaviour
     }
     public void MoveTo(Vector3 pos)
     {
-
         controller.enabled = false;
         controller.transform.position = pos;
         controller.enabled = true;
-
     }
-
     void Update()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
