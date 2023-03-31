@@ -5,6 +5,7 @@ using UnityEngine;
 public class ThirdPersonScript : MonoBehaviour
 {
     private CharacterController controller;
+    private PlayerStatus stats;
     public Transform cam;
     public float speed = 6f;
     public float runSpeed = 12f;
@@ -17,6 +18,7 @@ public class ThirdPersonScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        stats = GetComponent<PlayerStatus>();
     }
     public void MoveTo(Vector3 pos)
     {
@@ -26,35 +28,40 @@ public class ThirdPersonScript : MonoBehaviour
     }
     void Update()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-        Vector3 gravForce = new Vector3(0f, gravity, 0f);
-        controller.Move(gravForce * Time.deltaTime);
-
-        if(direction.magnitude >= 0.1)
+        if(!stats.isDead)
         {
-            animator.SetBool("isMoving", true);
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            if (Input.GetKey(KeyCode.LeftShift))
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
+
+            Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+            Vector3 gravForce = new Vector3(0f, gravity, 0f);
+            controller.Move(gravForce * Time.deltaTime);
+
+            if (direction.magnitude >= 0.1)
             {
-                controller.Move(moveDirection.normalized * runSpeed * Time.deltaTime);
-                animator.SetBool("isWalking", false);
+                animator.SetBool("isMoving", true);
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    controller.Move(moveDirection.normalized * runSpeed * Time.deltaTime);
+                    animator.SetBool("isWalking", false);
+                }
+                else
+                {
+                    controller.Move(moveDirection.normalized * speed * Time.deltaTime);
+                    animator.SetBool("isWalking", true);
+                }
+
             }
             else
             {
-                controller.Move(moveDirection.normalized * speed * Time.deltaTime);
-                animator.SetBool("isWalking", true);
+                animator.SetBool("isMoving", false);
+
             }
-
-        } else
-        {
-            animator.SetBool("isMoving", false);
-
         }
+        
     }
 }

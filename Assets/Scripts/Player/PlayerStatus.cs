@@ -2,9 +2,11 @@ using UnityEngine;
 using System.Collections;
 
 public class PlayerStatus : MonoBehaviour {
-	
+	[SerializeField]
 	private float health = 150.0f;
+	[SerializeField]
 	private float maxHealth = 150.0f;
+	[SerializeField]
 	private int deathCount = 0;
 
 	[SerializeField] private float dmgMulti = 1f;
@@ -23,10 +25,12 @@ public class PlayerStatus : MonoBehaviour {
 
 	private ThirdPersonScript controller;
 	public Transform spawnPoint;
+	public Canvas shop; 
     private void OnGUI()
     {
 		GUI.Box(new Rect(Screen.width - 100, 5, 100, 50), "Heatlh: " + health.ToString() + "\n Mana: " + currentMana.ToString() + "\n Souls: " + soulBalance.ToString());
     }
+	public bool isDead => dead; 
     public void SetCurrentMana(float mana) => currentMana = mana;
 	public float GetCurrentMana => currentMana;
     public float GetMaxMana => maxMana;
@@ -40,13 +44,12 @@ public class PlayerStatus : MonoBehaviour {
     {
 		controller = GetComponent<ThirdPersonScript>();
     }
-    public bool isAlive() {return !dead;}
+
 	public void ApplyDamage(float damage){
 		health -= damage;
 		Debug.Log("Ouch! " + health);
         if (health <= 0){
 			health = 0;
-			//StartCoroutine(Die());
 			Die();
 		}
 	}
@@ -60,19 +63,28 @@ public class PlayerStatus : MonoBehaviour {
     }
     public void Die()
     {
+		PopulateShop pop = shop.GetComponent<PopulateShop>();
+
 		deathCount += 1;
 		dead = true;
 		DespawnEnemies();
 		// Tele back to spawn point
-		controller.MoveTo(spawnPoint.position);
-
-
+		GetComponent<CharacterController>().enabled = false;
+		Cursor.lockState = CursorLockMode.None;
+		shop.enabled = true;
 		// Remove all enemies
 		// Spawn all enemies
 		// Show shop
 		// Release cursor
 		// Once shop is closed , lock cursor and hide ui
+	}	
+	public void Alive()
+    {
+		shop.enabled = false;
+		controller.MoveTo(spawnPoint.position);
+		GetComponent<CharacterController>().enabled = true;
+		Cursor.lockState = CursorLockMode.Locked;
 		health = maxHealth;
 		dead = false;
-	}	
+	}
 }

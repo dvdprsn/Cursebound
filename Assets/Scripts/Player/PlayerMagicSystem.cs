@@ -23,26 +23,30 @@ public class PlayerMagicSystem : MonoBehaviour
 
     void Update()
     {
-        bool isCastingButtonPressed = Input.GetKey(KeyCode.Mouse0);
-        bool hasMana = pStats.GetCurrentMana - spellToCast.spellToCast.ManaCost >= 0f;
-        if (!castingMagic && isCastingButtonPressed && hasMana)
+        if(!pStats.isDead)
         {
-            castingMagic = true;
-            pStats.SetCurrentMana(pStats.GetCurrentMana - spellToCast.spellToCast.ManaCost);
-            currentCastTimer = 0;
-            CastSpell();
-            animator.SetBool("isAttacking", true);
+            bool isCastingButtonPressed = Input.GetKey(KeyCode.Mouse0);
+            bool hasMana = pStats.GetCurrentMana - spellToCast.spellToCast.ManaCost >= 0f;
+            if (!castingMagic && isCastingButtonPressed && hasMana)
+            {
+                castingMagic = true;
+                pStats.SetCurrentMana(pStats.GetCurrentMana - spellToCast.spellToCast.ManaCost);
+                currentCastTimer = 0;
+                CastSpell();
+                animator.SetBool("isAttacking", true);
+            }
+            if (castingMagic)
+            {
+                currentCastTimer += Time.deltaTime;
+                if (currentCastTimer > pStats.GetTimeToCast) castingMagic = false;
+
+            }
+
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) animator.SetBool("isAttacking", false);
+
+            if (pStats.GetCurrentMana < pStats.GetMaxMana) pStats.SetCurrentMana(pStats.GetCurrentMana + pStats.GetManaRechargeRate * Time.deltaTime);
         }
-        if(castingMagic)
-        {
-            currentCastTimer += Time.deltaTime;
-            if (currentCastTimer > pStats.GetTimeToCast) castingMagic = false;
-
-        }
-
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) animator.SetBool("isAttacking", false);
-
-        if (pStats.GetCurrentMana < pStats.GetMaxMana) pStats.SetCurrentMana(pStats.GetCurrentMana + pStats.GetManaRechargeRate * Time.deltaTime);
+        
     }
 
     void CastSpell()

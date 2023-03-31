@@ -36,7 +36,6 @@ public class Spell : MonoBehaviour
             if(enemyHealth.IsDead())
             {
                 pStats.AddSouls(enemyHealth.getSoulValue());
-                //Destroy(enemyHealth.gameObject);
             }
         }
 

@@ -6,9 +6,9 @@ public class AIController : MonoBehaviour {
 	public float fov = 160.0f;
 	private float rotationSpeed = 5.0f;
 
-	private float 			attackSpeed = 1.2f;
-	private float 			gravity = 50.0f;
-	public float			attackValue = 20.0f;
+	private float attackSpeed = 1.2f;
+	private float gravity = 50.0f;
+	public float attackValue = 20.0f;
 
 	private float attackDistance = 1.5f;
 	private float sightDistance = 9.0f;
@@ -22,34 +22,20 @@ public class AIController : MonoBehaviour {
 	private Vector3			moveDirection = new Vector3(0,0,0);
 	private State			currentState;
 
-	private HealthComponent health;
-
 	private Animator animator;
 
-	private bool			isControllable = true;
-	private bool			isDead = false;
+	private bool isControllable = true;
+	private bool isDead = false;
 	private bool deathStarted = false;
-	private bool inDanger = false;
 
 	private bool hasAttacked = false;
 	private float attackTimer = 0f;
-
-	public bool 	IsControllable {
-		get {return isControllable;}
-		set {isControllable = value;}
-	}
 
 	public bool IsDead
 	{
 		get { return isDead; }
 		set { isDead = value; }
 	}
-
-	public bool InDanger
-    {
-		get { return inDanger; }
-		set { inDanger = value; }
-    }
 	void ResetAnimationTriggers()
     {
 		foreach (var trigger in animator.parameters)
@@ -145,15 +131,6 @@ public class AIController : MonoBehaviour {
 		Vector3 direction = (target.position - controller.transform.position).normalized;
 		moveDirection = direction * 1.8f;
 		RotateTowards(target.position, false);
-	}
-	// TODO Probably dont want them running away
-	public void RunAway()
-    {
-		animator.SetBool("isRunning", true);
-		Vector3 direction = (target.position - controller.transform.position).normalized;
-		moveDirection = -direction * 1.8f;
-		RotateTowards(target.position, true);
-
 	}
 	public void Attack()
     {

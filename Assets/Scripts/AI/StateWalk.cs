@@ -10,10 +10,6 @@ public class StateWalk : State
         {
             character.ChangeState(new StateDead());
         }
-        else if (character.InDanger)
-        {
-            character.ChangeState(new StateRunAway());
-        }
         //If see and in range, attack
         else if (character.EnemySeen() && character.EnemyInRange())
         {
