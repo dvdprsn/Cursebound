@@ -16,7 +16,7 @@ public class ShopButton : MonoBehaviour
 
     public void PurchaseHealth(int cost)
     {
-        if(stats.GetSouls() >= cost)
+        if(stats.Souls >= cost)
         {
             stats.AddHealth(10);
             stats.RemoveSouls(cost);

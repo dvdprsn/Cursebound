@@ -35,7 +35,8 @@ public class Spell : MonoBehaviour
             enemyHealth.TakeDamage(spellToCast.Damage * pStats.DmgMul);
             if(enemyHealth.IsDead())
             {
-                pStats.AddSouls(enemyHealth.getSoulValue());
+                // Multiple by pStats soul mul
+                pStats.AddSouls(enemyHealth.getSoulValue() * pStats.SoulMul);
             }
         }
 

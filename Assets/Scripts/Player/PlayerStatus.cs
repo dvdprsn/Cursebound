@@ -10,6 +10,7 @@ public class PlayerStatus : MonoBehaviour {
 	private int deathCount = 0;
 
 	[SerializeField] private float dmgMulti = 1f;
+	[SerializeField] private float soulMul = 1f;
 	//[SerializeField] private float maxManaMul = 1f;
 	//[SerializeField] private float manaRechargeMul = 1f;
 	//[SerializeField] private float timeToCastMul = 1f;
@@ -18,6 +19,7 @@ public class PlayerStatus : MonoBehaviour {
 	[SerializeField] private float maxMana = 100f;
 	[SerializeField] private float manaRecharageRate = 2f;
 	[SerializeField] private float timeToCast = 0.25f;
+
 
 	[SerializeField] private float soulBalance = 0f;
 
@@ -33,7 +35,8 @@ public class PlayerStatus : MonoBehaviour {
 	//SOUL HANLDING
 	public void AddSouls(float souls) => soulBalance += souls;
 	public void RemoveSouls(float souls) => soulBalance -= souls;
-	public float GetSouls() => soulBalance;
+	public float Souls => soulBalance;
+	public float SoulMul => soulMul;
 	// HEALTH HANDLING
 	public float MaxHealth => maxHealth;
 	public void AddHealth(float moreHealth) => maxHealth += moreHealth;
