@@ -32,7 +32,7 @@ public class Spell : MonoBehaviour
         {
             HealthComponent enemyHealth = other.GetComponent<HealthComponent>();
             // Could add player dmg multiplier here!
-            enemyHealth.TakeDamage(spellToCast.Damage * pStats.GetDmgMul);
+            enemyHealth.TakeDamage(spellToCast.Damage * pStats.DmgMul);
             if(enemyHealth.IsDead())
             {
                 pStats.AddSouls(enemyHealth.getSoulValue());

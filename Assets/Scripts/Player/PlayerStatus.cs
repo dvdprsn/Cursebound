@@ -30,16 +30,24 @@ public class PlayerStatus : MonoBehaviour {
     {
 		GUI.Box(new Rect(Screen.width - 100, 5, 100, 50), "Heatlh: " + health.ToString() + "\n Mana: " + currentMana.ToString() + "\n Souls: " + soulBalance.ToString());
     }
+	//SOUL HANLDING
+	public void AddSouls(float souls) => soulBalance += souls;
+	public void RemoveSouls(float souls) => soulBalance -= souls;
+	public float GetSouls() => soulBalance;
+	// HEALTH HANDLING
+	public float MaxHealth => maxHealth;
+	public void AddHealth(float moreHealth) => maxHealth += moreHealth;
+	public float Health => health;
+
 	public bool isDead => dead; 
     public void SetCurrentMana(float mana) => currentMana = mana;
 	public float GetCurrentMana => currentMana;
     public float GetMaxMana => maxMana;
 	public float GetManaRechargeRate => manaRecharageRate;
 	public float GetTimeToCast => timeToCast;
-	public float GetDmgMul => dmgMulti;
-	public void AddSouls(float souls) => soulBalance += souls;
-    public void AddHealth(float moreHealth) => health += moreHealth;
-    public float Health => health;
+	public float DmgMul => dmgMulti;
+
+    
     void Start()
     {
 		controller = GetComponent<ThirdPersonScript>();
@@ -85,6 +93,7 @@ public class PlayerStatus : MonoBehaviour {
 		GetComponent<CharacterController>().enabled = true;
 		Cursor.lockState = CursorLockMode.Locked;
 		health = maxHealth;
+		currentMana = maxMana;
 		dead = false;
 	}
 }

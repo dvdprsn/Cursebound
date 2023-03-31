@@ -13,6 +13,16 @@ public class ThirdPersonScript : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
     private Animator animator;
+    void ResetAnimationTriggers()
+    {
+        foreach (var trigger in animator.parameters)
+        {
+            if (trigger.type == AnimatorControllerParameterType.Bool)
+            {
+                animator.SetBool(trigger.name, false);
+            }
+        }
+    }
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -39,29 +49,39 @@ public class ThirdPersonScript : MonoBehaviour
 
             if (direction.magnitude >= 0.1)
             {
-                animator.SetBool("isMoving", true);
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
                 Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
+
                     controller.Move(moveDirection.normalized * runSpeed * Time.deltaTime);
-                    animator.SetBool("isWalking", false);
+                    if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+                    {
+                        ResetAnimationTriggers();
+
+                        animator.SetBool("isRunning", true);
+
+                    }
                 }
                 else
                 {
                     controller.Move(moveDirection.normalized * speed * Time.deltaTime);
-                    animator.SetBool("isWalking", true);
+                    if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+                    {
+                        ResetAnimationTriggers();
+                        animator.SetBool("isWalking", true);
+                    }
                 }
 
             }
             else
             {
-                animator.SetBool("isMoving", false);
-
+                ResetAnimationTriggers();
             }
+
         }
-        
+
     }
 }

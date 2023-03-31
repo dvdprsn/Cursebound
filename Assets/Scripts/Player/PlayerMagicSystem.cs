@@ -14,6 +14,16 @@ public class PlayerMagicSystem : MonoBehaviour
     private bool castingMagic = false;
     private float currentCastTimer;
     public Animator animator;
+    void ResetAnimationTriggers()
+    {
+        foreach (var trigger in animator.parameters)
+        {
+            if (trigger.type == AnimatorControllerParameterType.Bool)
+            {
+                animator.SetBool(trigger.name, false);
+            }
+        }
+    }
     private void Awake()
     {
         pStats = GetComponent<PlayerStatus>();
@@ -25,6 +35,8 @@ public class PlayerMagicSystem : MonoBehaviour
     {
         if(!pStats.isDead)
         {
+            //ResetAnimationTriggers();
+
             bool isCastingButtonPressed = Input.GetKey(KeyCode.Mouse0);
             bool hasMana = pStats.GetCurrentMana - spellToCast.spellToCast.ManaCost >= 0f;
             if (!castingMagic && isCastingButtonPressed && hasMana)
@@ -32,8 +44,10 @@ public class PlayerMagicSystem : MonoBehaviour
                 castingMagic = true;
                 pStats.SetCurrentMana(pStats.GetCurrentMana - spellToCast.spellToCast.ManaCost);
                 currentCastTimer = 0;
-                CastSpell();
+                ResetAnimationTriggers();
                 animator.SetBool("isAttacking", true);
+                CastSpell();
+                
             }
             if (castingMagic)
             {
@@ -41,8 +55,6 @@ public class PlayerMagicSystem : MonoBehaviour
                 if (currentCastTimer > pStats.GetTimeToCast) castingMagic = false;
 
             }
-
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) animator.SetBool("isAttacking", false);
 
             if (pStats.GetCurrentMana < pStats.GetMaxMana) pStats.SetCurrentMana(pStats.GetCurrentMana + pStats.GetManaRechargeRate * Time.deltaTime);
         }
