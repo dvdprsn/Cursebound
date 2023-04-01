@@ -3,12 +3,11 @@ using System;
 
 public class AIController : MonoBehaviour {
 
-	public float fov = 160.0f;
+	public float fov = 200.0f;
 	private float rotationSpeed = 5.0f;
 
 	private float attackSpeed = 1.2f;
 	private float gravity = 50.0f;
-	public float attackValue = 20.0f;
 
 	private float attackDistance = 1.5f;
 	private float sightDistance = 9.0f;
@@ -21,21 +20,17 @@ public class AIController : MonoBehaviour {
 	private Transform		target;
 	private Vector3			moveDirection = new Vector3(0,0,0);
 	private State			currentState;
+	private AIStat stats;
 
 	private Animator animator;
 
 	private bool isControllable = true;
-	private bool isDead = false;
 	private bool deathStarted = false;
 
 	private bool hasAttacked = false;
 	private float attackTimer = 0f;
 
-	public bool IsDead
-	{
-		get { return isDead; }
-		set { isDead = value; }
-	}
+	public bool IsDead => stats.IsDead;
 	void ResetAnimationTriggers()
     {
 		foreach (var trigger in animator.parameters)
@@ -76,6 +71,7 @@ public class AIController : MonoBehaviour {
 		target = player.transform;
 		playerStatus = player.GetComponent<PlayerStatus>();
 		ChangeState(new StateIdle());
+		stats = GetComponent<AIStat>();
 	}
 	
 	public void ChangeState(State newState){
@@ -146,7 +142,7 @@ public class AIController : MonoBehaviour {
 		}
 		if(attackTimer >= attackSpeed && !hasAttacked)
         {
-			playerStatus.ApplyDamage(attackValue);
+			playerStatus.ApplyDamage(stats.Dmg);
 			hasAttacked = true;
 			animator.SetBool("isAttacking", false);
         }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
+    [SerializeField]
+    private float difficulty = 1.0f;
     public Transform spawnPoint;
     public GameObject prefab;
     public int numToSpawn = 2;
@@ -18,22 +20,22 @@ public class EnemySpawn : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            foreach (GameObject door in doors)
-            {
-                door.SetActive(true);
-            }
+            foreach (GameObject door in doors) door.SetActive(true);
+
             // If the room is not cleared entirely it will respawn the room 
             if (numToSpawn != 0)
             {
-                numToSpawn = Random.Range(numToSpawn, numToSpawn + 5);
+                numToSpawn = Random.Range(numToSpawn, numToSpawn + 3);
             }
             for (int x = 0; x < numToSpawn; x++)
             {
                 Vector3 var = spawnPoint.position;
                 var.x += Random.Range(0, -7);
                 var.z += Random.Range(0, 7);
-                Instantiate(prefab, var, spawnPoint.rotation);
-            }
+                GameObject g = Instantiate(prefab, var, spawnPoint.rotation);
+                AIStat stats = g.GetComponent<AIStat>();
+                stats.ChangeDifficulty(difficulty);
+            }   
         }
     }
     private void OnTriggerExit(Collider other)
@@ -42,14 +44,8 @@ public class EnemySpawn : MonoBehaviour
         {
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-            if(enemies.Length != numToSpawn)
-            {
-                numToSpawn = enemies.Length;
-            }
-            foreach(GameObject g in enemies)
-            {
-                Destroy(g);
-            }
+            if(enemies.Length != numToSpawn) numToSpawn = enemies.Length;
+            foreach(GameObject g in enemies) Destroy(g);
 
         }
 
@@ -59,10 +55,7 @@ public class EnemySpawn : MonoBehaviour
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         if (enemies.Length == 0)
         {
-            foreach (GameObject door in doors)
-            {
-                door.SetActive(false);
-            }
+            foreach (GameObject door in doors) door.SetActive(false);
         }
     }
 }

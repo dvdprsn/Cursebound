@@ -30,14 +30,17 @@ public class Spell : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            HealthComponent enemyHealth = other.GetComponent<HealthComponent>();
+
+            AIStat enemyStats = other.GetComponent<AIStat>();
             // Could add player dmg multiplier here!
-            enemyHealth.TakeDamage(spellToCast.Damage * pStats.DmgMul);
-            if(enemyHealth.IsDead())
-            {
-                // Multiple by pStats soul mul
-                pStats.AddSouls(enemyHealth.getSoulValue() * pStats.SoulMul);
-            }
+            enemyStats.ApplyDamage(spellToCast.Damage * pStats.DmgMul);
+            // Award player souls
+            if(enemyStats.IsDead) pStats.AddSouls(enemyStats.soulValue * pStats.SoulMul);
+        }
+        //For enemy spell
+        if (other.gameObject.CompareTag("Player"))
+        {
+
         }
 
         if (!other.gameObject.CompareTag("GameElement"))

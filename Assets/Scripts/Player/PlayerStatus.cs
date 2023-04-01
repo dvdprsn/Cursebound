@@ -3,9 +3,9 @@ using System.Collections;
 
 public class PlayerStatus : MonoBehaviour {
 	[SerializeField]
-	private float health = 150.0f;
+	private float health;
 	[SerializeField]
-	private float maxHealth = 150.0f;
+	private float maxHealth = 10.0f;
 	[SerializeField]
 	private int deathCount = 0;
 
@@ -16,9 +16,9 @@ public class PlayerStatus : MonoBehaviour {
 	//[SerializeField] private float timeToCastMul = 1f;
 
 	[SerializeField] private float currentMana;
-	[SerializeField] private float maxMana = 100f;
+	[SerializeField] private float maxMana = 10f;
 	[SerializeField] private float manaRecharageRate = 2f;
-	[SerializeField] private float timeToCast = 0.25f;
+	[SerializeField] private float timeToCast = 1f;
 
 
 	[SerializeField] private float soulBalance = 0f;
@@ -54,6 +54,7 @@ public class PlayerStatus : MonoBehaviour {
     void Start()
     {
 		controller = GetComponent<ThirdPersonScript>();
+		health = maxHealth;
     }
 
 	public void ApplyDamage(float damage){
@@ -83,11 +84,6 @@ public class PlayerStatus : MonoBehaviour {
 		GetComponent<CharacterController>().enabled = false;
 		Cursor.lockState = CursorLockMode.None;
 		shop.enabled = true;
-		// Remove all enemies
-		// Spawn all enemies
-		// Show shop
-		// Release cursor
-		// Once shop is closed , lock cursor and hide ui
 	}	
 	public void Alive()
     {
