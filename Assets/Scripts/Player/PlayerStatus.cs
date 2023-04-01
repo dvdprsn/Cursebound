@@ -19,7 +19,10 @@ public class PlayerStatus : MonoBehaviour {
 	[SerializeField] private float maxMana = 10f;
 	[SerializeField] private float manaRecharageRate = 2f;
 	[SerializeField] private float timeToCast = 1f;
+	private float tempDmgBoost = 0f;
+	private float tempSoulBoost = 0f;
 
+	private float current_difficulty = 1f;
 
 	[SerializeField] private float soulBalance = 0f;
 
@@ -30,13 +33,21 @@ public class PlayerStatus : MonoBehaviour {
 	public Canvas shop; 
     private void OnGUI()
     {
-		GUI.Box(new Rect(Screen.width - 100, 5, 100, 50), "Heatlh: " + health.ToString() + "\n Mana: " + currentMana.ToString() + "\n Souls: " + soulBalance.ToString());
+		GUI.Box(new Rect(Screen.width - 130, 15, 100, 80), "Heatlh: " + health.ToString() + "\n Mana: " + currentMana.ToString() + "\n Souls: " + soulBalance.ToString() + "\n Difficulty: " + current_difficulty.ToString());
     }
+	//Add powerups
+	public void GiveTmpHealthBoost(float boost) => health += boost;
+	public void GiveTmpDmgBoost(float boost) => tempDmgBoost += boost;
+	public void GiveTmpSoulBoost(float boost) => tempSoulBoost += boost;
+
 	//SOUL HANLDING
+	public void SetDifficulty(float mod) => current_difficulty = mod;
 	public void AddSouls(float souls) => soulBalance += souls;
 	public void RemoveSouls(float souls) => soulBalance -= souls;
 	public float Souls => soulBalance;
-	public float SoulMul => soulMul;
+	//Retirm soul multiplier with any temp pickup bonuses
+	public float SoulMul => soulMul + tempSoulBoost;
+	public void AddSoulMul(float mul) => soulMul += mul;
 	// HEALTH HANDLING
 	public float MaxHealth => maxHealth;
 	public void AddHealth(float moreHealth) => maxHealth += moreHealth;
@@ -45,10 +56,16 @@ public class PlayerStatus : MonoBehaviour {
 	public bool isDead => dead; 
     public void SetCurrentMana(float mana) => currentMana = mana;
 	public float GetCurrentMana => currentMana;
+
     public float GetMaxMana => maxMana;
+	public float AddMaxMana(float mul) => maxMana += mul;
+
 	public float GetManaRechargeRate => manaRecharageRate;
+	public float AddManaRate(float mul) => manaRecharageRate += mul;
+
 	public float GetTimeToCast => timeToCast;
-	public float DmgMul => dmgMulti;
+	public float DmgMul => dmgMulti + tempDmgBoost;
+	public void AddDmgMul(float mul) => dmgMulti += mul;
 
     
     void Start()
@@ -75,8 +92,6 @@ public class PlayerStatus : MonoBehaviour {
     }
     public void Die()
     {
-		PopulateShop pop = shop.GetComponent<PopulateShop>();
-
 		deathCount += 1;
 		dead = true;
 		DespawnEnemies();
@@ -93,6 +108,10 @@ public class PlayerStatus : MonoBehaviour {
 		Cursor.lockState = CursorLockMode.Locked;
 		health = maxHealth;
 		currentMana = maxMana;
+		// Reset powerups
+		tempDmgBoost = 0f;
+		tempSoulBoost = 0f;
+
 		dead = false;
 	}
 }

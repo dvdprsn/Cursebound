@@ -11,22 +11,23 @@ public class EnemySpawn : MonoBehaviour
     public int numToSpawn = 2;
     GameObject[] doors;
     GameObject[] enemies;
-
+    PlayerStatus stats;
     private void Awake()
     {
         doors = GameObject.FindGameObjectsWithTag("Door");
+        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>();
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            stats.SetDifficulty(difficulty);
             foreach (GameObject door in doors) door.SetActive(true);
 
             // If the room is not cleared entirely it will respawn the room 
-            if (numToSpawn != 0)
-            {
-                numToSpawn = Random.Range(numToSpawn, numToSpawn + 3);
-            }
+            // if (numToSpawn != 0) numToSpawn = Random.Range(numToSpawn, numToSpawn + 3);
+
+            //Maybe apply difficulty here and round up?
             for (int x = 0; x < numToSpawn; x++)
             {
                 Vector3 var = spawnPoint.position;
@@ -44,7 +45,7 @@ public class EnemySpawn : MonoBehaviour
         {
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-            if(enemies.Length != numToSpawn) numToSpawn = enemies.Length;
+            //if(enemies.Length != numToSpawn) numToSpawn = enemies.Length;
             foreach(GameObject g in enemies) Destroy(g);
 
         }

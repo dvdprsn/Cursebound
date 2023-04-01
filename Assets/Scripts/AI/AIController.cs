@@ -3,14 +3,14 @@ using System;
 
 public class AIController : MonoBehaviour {
 
-	public float fov = 200.0f;
+	public float fov = 260.0f;
 	private float rotationSpeed = 5.0f;
 
-	private float attackSpeed = 1.2f;
+	private float attackSpeed = 0.8f;
 	private float gravity = 50.0f;
 
 	private float attackDistance = 1.5f;
-	private float sightDistance = 9.0f;
+	private float sightDistance = 14.0f;
 	private float walkDistance = 2.5f;
 
 	private GameObject player;
@@ -28,19 +28,11 @@ public class AIController : MonoBehaviour {
 	private bool deathStarted = false;
 
 	private bool hasAttacked = false;
+
 	private float attackTimer = 0f;
 
 	public bool IsDead => stats.IsDead;
-	void ResetAnimationTriggers()
-    {
-		foreach (var trigger in animator.parameters)
-        {
-			if(trigger.type == AnimatorControllerParameterType.Bool)
-            {
-				animator.SetBool(trigger.name, false);
-            }
-        }
-    }
+
  	// My A1 Rotation script
 	private void RotateTowards(Vector3 target, bool inverse)
 	{
@@ -77,7 +69,6 @@ public class AIController : MonoBehaviour {
 	public void ChangeState(State newState){
 		currentState = newState;
 		//Set all flags to False for animation
-		ResetAnimationTriggers();
 	}
 
 	// == Conditions for State Machine == 
@@ -114,16 +105,14 @@ public class AIController : MonoBehaviour {
     }
 	public void Run()
     {
-		animator.SetBool("isRunning", true);
-
+		animator.SetFloat("Speed", 1f, 0.1f, Time.deltaTime);
 		Vector3 direction = (target.position - controller.transform.position).normalized;
-
 		moveDirection = direction * 3f;
 		RotateTowards(target.position, false);
 	}
 	public void Walk()
     {
-		animator.SetBool("isWalking", true);
+		animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
 		Vector3 direction = (target.position - controller.transform.position).normalized;
 		moveDirection = direction * 1.8f;
 		RotateTowards(target.position, false);
@@ -133,19 +122,20 @@ public class AIController : MonoBehaviour {
 		moveDirection = new Vector3(0, 0, 0);
 		RotateTowards(target.position, false);
 		attackTimer += Time.deltaTime;
-		// If animation is not playing
-		if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+
+		//if animation is not currently playing
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
+			animator.SetTrigger("Attack");
 			hasAttacked = false;
-            animator.SetBool("isAttacking", true);
 			attackTimer = 0f;
 		}
-		if(attackTimer >= attackSpeed && !hasAttacked)
+		if((attackTimer >= attackSpeed) && !hasAttacked)
         {
 			playerStatus.ApplyDamage(stats.Dmg);
 			hasAttacked = true;
-			animator.SetBool("isAttacking", false);
-        }
+		}
+
 	}
 	public void BeDead(){
 		if (deathStarted)
@@ -165,6 +155,8 @@ public class AIController : MonoBehaviour {
 	}
 	public void BeIdle(){
 		moveDirection = new Vector3(0,0,0);
+		animator.SetFloat("Speed", 0, 0.1f, Time.deltaTime);
+
 	}
 	void Update () {
 		currentState.Execute(this);

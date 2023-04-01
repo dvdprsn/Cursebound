@@ -14,21 +14,13 @@ public class PlayerMagicSystem : MonoBehaviour
     private bool castingMagic = false;
     private float currentCastTimer;
     public Animator animator;
-    void ResetAnimationTriggers()
-    {
-        foreach (var trigger in animator.parameters)
-        {
-            if (trigger.type == AnimatorControllerParameterType.Bool)
-            {
-                animator.SetBool(trigger.name, false);
-            }
-        }
-    }
+
     private void Awake()
     {
         pStats = GetComponent<PlayerStatus>();
         pStats.SetCurrentMana(pStats.GetMaxMana);
         spellToCast.pStats = GetComponent<PlayerStatus>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -44,8 +36,8 @@ public class PlayerMagicSystem : MonoBehaviour
                 castingMagic = true;
                 pStats.SetCurrentMana(pStats.GetCurrentMana - spellToCast.spellToCast.ManaCost);
                 currentCastTimer = 0;
-                ResetAnimationTriggers();
-                animator.SetBool("isAttacking", true);
+                animator.SetTrigger("Attack");
+                //animator.ChangeAnimationState("Attack");
                 CastSpell();
                 
             }

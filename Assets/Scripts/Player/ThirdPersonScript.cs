@@ -12,17 +12,9 @@ public class ThirdPersonScript : MonoBehaviour
     private float gravity = -9.81f;
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
+    //private Animator animator;
     private Animator animator;
-    void ResetAnimationTriggers()
-    {
-        foreach (var trigger in animator.parameters)
-        {
-            if (trigger.type == AnimatorControllerParameterType.Bool)
-            {
-                animator.SetBool(trigger.name, false);
-            }
-        }
-    }
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -36,13 +28,27 @@ public class ThirdPersonScript : MonoBehaviour
         controller.transform.position = pos;
         controller.enabled = true;
     }
+    private void Idle()
+    {
+        animator.SetFloat("Speed", 0, 0.1f, Time.deltaTime);
+    }
+    private void Walk()
+    {
+        animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
+
+    }
+    private void Run()
+    {
+        animator.SetFloat("Speed", 1f, 0.1f, Time.deltaTime);
+
+    }
     void Update()
     {
         if(!stats.isDead)
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
-
+ 
             Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
             Vector3 gravForce = new Vector3(0f, gravity, 0f);
             controller.Move(gravForce * Time.deltaTime);
@@ -55,30 +61,22 @@ public class ThirdPersonScript : MonoBehaviour
                 Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
-
+                    //Running 
                     controller.Move(moveDirection.normalized * runSpeed * Time.deltaTime);
-                    if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-                    {
-                        ResetAnimationTriggers();
+                    Run();
 
-                        animator.SetBool("isRunning", true);
-
-                    }
                 }
                 else
                 {
+                    // Walking
                     controller.Move(moveDirection.normalized * speed * Time.deltaTime);
-                    if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-                    {
-                        ResetAnimationTriggers();
-                        animator.SetBool("isWalking", true);
-                    }
+                    Walk();
                 }
 
             }
             else
             {
-                ResetAnimationTriggers();
+                Idle();
             }
 
         }

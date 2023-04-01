@@ -25,11 +25,11 @@ public class PopulateShop : MonoBehaviour
     }
     private void Start()
     {
-        CreateButton("Health +10", 5, 0);
-        CreateButton("Dmg Mul +0.50", 30, 1);
-        CreateButton("Test2", 3, 2);
-        CreateButton("Test2", 3, 3);
-        CreateButton("Test2", 3, 4);
+        CreateButton("Max Health +10", 1, 0);
+        CreateButton("Dmg Mul +0.5", 1, 1);
+        CreateButton("Soul Mul +0.5", 1, 2);
+        CreateButton("Max Mana +10", 1, 3);
+        CreateButton("Mana Rate +0.2", 1, 4);
 
     }
     public void CreateButton(string text, int price, int idx)
@@ -50,6 +50,10 @@ public class PopulateShop : MonoBehaviour
     {
         statContainer.Find("MaxHealth").GetComponent<TextMeshProUGUI>().SetText("Max Health => " + stats.MaxHealth.ToString());
         statContainer.Find("DmgMul").GetComponent<TextMeshProUGUI>().SetText("Dmg Mul => " + stats.DmgMul.ToString());
+        statContainer.Find("SoulMul").GetComponent<TextMeshProUGUI>().SetText("Soul Mul => " + stats.SoulMul.ToString());
+        statContainer.Find("MaxMana").GetComponent<TextMeshProUGUI>().SetText("Max Mana => " + stats.GetMaxMana.ToString());
+        statContainer.Find("ManaRate").GetComponent<TextMeshProUGUI>().SetText("Mana Recharge => " + stats.GetManaRechargeRate.ToString());
+        statContainer.Find("Souls").GetComponent<TextMeshProUGUI>().SetText("Souls: " + stats.Souls.ToString());
     }
 
     private void Update()

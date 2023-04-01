@@ -30,7 +30,6 @@ public class Spell : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-
             AIStat enemyStats = other.GetComponent<AIStat>();
             // Could add player dmg multiplier here!
             enemyStats.ApplyDamage(spellToCast.Damage * pStats.DmgMul);
