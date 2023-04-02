@@ -40,7 +40,6 @@ public class PowerUp : MonoBehaviour
         }
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -48,13 +47,13 @@ public class PowerUp : MonoBehaviour
             switch(type)
             {
                 case PowerUpType.HealthUp:
-                    stats.GiveTmpHealthBoost(50);
+                    stats.GiveTmpHealthBoost(20);
                     break;
                 case PowerUpType.DmgUp:
-                    stats.GiveTmpDmgBoost(1);
+                    stats.GiveTmpDmgBoost(0.5f);
                     break;
                 case PowerUpType.SoulUp:
-                    stats.GiveTmpSoulBoost(1);
+                    stats.GiveTmpSoulBoost(0.5f);
                     break;
                 default:
                     break;

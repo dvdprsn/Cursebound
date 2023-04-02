@@ -2,23 +2,6 @@ using UnityEngine;
 using System;
 
 public class AIController : MonoBehaviour {
-	enum PowerUpType
-	{
-		HealthUp,
-		DmgUp,
-		SoulUp,
-		None
-	};
-	[SerializeField]
-	PowerUpType powerType = new PowerUpType();
-	enum EnemyType
-	{
-		Melee,
-		Range,
-		Boss
-	};
-	[SerializeField]
-	EnemyType type = new EnemyType();
 
 	public float fov = 260.0f;
 	[SerializeField]
@@ -26,7 +9,6 @@ public class AIController : MonoBehaviour {
 	[SerializeField]
 	private float attackSpeed = 0.8f;
 	private float gravity = 50.0f;
-
 
 	[SerializeField]
 	private float attackDistance = 1.5f;
@@ -162,17 +144,20 @@ public class AIController : MonoBehaviour {
 		}
 		if((attackTimer >= attackSpeed) && !hasAttacked)
         {
-			if (type == EnemyType.Range)
+			//Is ranged enemy
+			if (stats.GetEnemyType == 1)
 			{
 				Spell s = Instantiate(spell, castPoint.position, castPoint.rotation);
 				//Only damage players prevent friendly fire
 				s.SetDmgType(2);
 			}
-			else if (type == EnemyType.Melee)
+			//Is melee enemy
+			else if (stats.GetEnemyType == 0)
             {
 				playerStatus.ApplyDamage(stats.Dmg);
 			}
 			hasAttacked = true;
+			animator.SetBool("Attacking", false);
 		}
 	}
 
@@ -183,7 +168,7 @@ public class AIController : MonoBehaviour {
 			if (animator.GetCurrentAnimatorStateInfo(0).IsName("Done"))
 			{
 				PowerUp p = Instantiate(powerupPrefab, castPoint.position, castPoint.rotation);
-				p.SetType((int)powerType);
+				p.SetType(stats.GetPowerType);
 				Destroy(this.gameObject);
 			}
 		}
@@ -198,7 +183,6 @@ public class AIController : MonoBehaviour {
 	public void BeIdle(){
 		moveDirection = new Vector3(0,0,0);
 		animator.SetFloat("Speed", 0, 0.1f, Time.deltaTime);
-
 	}
 	void Update () {
 		currentState.Execute(this);

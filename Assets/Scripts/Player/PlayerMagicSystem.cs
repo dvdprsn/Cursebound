@@ -6,19 +6,17 @@ public class PlayerMagicSystem : MonoBehaviour
 {
 
     [SerializeField] public Spell spellToCast;
-
-    private PlayerStatus pStats; 
-
     [SerializeField] private Transform castPoint;
 
     private bool castingMagic = false;
     private float currentCastTimer;
     public Animator animator;
+    private PlayerStatus pStats;
+
 
     private void Awake()
     {
         pStats = GetComponent<PlayerStatus>();
-        pStats.SetCurrentMana(pStats.GetMaxMana);
         animator = GetComponent<Animator>();
     }
 
@@ -51,6 +49,7 @@ public class PlayerMagicSystem : MonoBehaviour
     {
         // CAST HERE
         Spell s = Instantiate(spellToCast, castPoint.position, castPoint.rotation);
+        // Set to only damage enemy type
         s.SetDmgType(1);
     }
 }

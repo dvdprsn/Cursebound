@@ -11,9 +11,6 @@ public class PlayerStatus : MonoBehaviour {
 
 	[SerializeField] private float dmgMulti = 1f;
 	[SerializeField] private float soulMul = 1f;
-	//[SerializeField] private float maxManaMul = 1f;
-	//[SerializeField] private float manaRechargeMul = 1f;
-	//[SerializeField] private float timeToCastMul = 1f;
 
 	[SerializeField] private float currentMana;
 	[SerializeField] private float maxMana = 10f;
@@ -72,13 +69,14 @@ public class PlayerStatus : MonoBehaviour {
     {
 		controller = GetComponent<ThirdPersonScript>();
 		health = maxHealth;
+		currentMana = maxMana;
 		shop = GameObject.FindGameObjectWithTag("UI").GetComponent<Canvas>();
 		spawnPoint = GameObject.FindGameObjectWithTag("Respawn").transform;
     }
 
 	public void ApplyDamage(float damage){
 		health -= damage;
-		Debug.Log("Ouch! " + health);
+		//Debug.Log("Ouch! " + health);
         if (health <= 0){
 			health = 0;
 			Die();
@@ -94,6 +92,10 @@ public class PlayerStatus : MonoBehaviour {
     }
     public void Die()
     {
+		// Reset powerups
+
+		tempDmgBoost = 0f;
+		tempSoulBoost = 0f;
 		deathCount += 1;
 		dead = true;
 		DespawnEnemies();
@@ -110,10 +112,6 @@ public class PlayerStatus : MonoBehaviour {
 		Cursor.lockState = CursorLockMode.Locked;
 		health = maxHealth;
 		currentMana = maxMana;
-		// Reset powerups
-		tempDmgBoost = 0f;
-		tempSoulBoost = 0f;
-
 		dead = false;
 	}
 }

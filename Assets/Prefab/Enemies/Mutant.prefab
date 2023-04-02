@@ -466,8 +466,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43258eae685f44c889fb28cd1a60dda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerType: 3
-  type: 0
   fov: 260
   rotationSpeed: 5
   attackSpeed: 0.8
@@ -489,6 +487,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922c8d876e965b54aa3c651efdd2eb1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerType: 3
+  enemyType: 0
   healthbar: {fileID: 1744476832}
   maxHealth: 10
   dmg: 5

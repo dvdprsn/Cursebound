@@ -51,7 +51,9 @@ public class Spell : MonoBehaviour
                 // Could add player dmg multiplier here!
                 enemyStats.ApplyDamage(dmg);
                 Debug.Log("Enemy Damaged: " + dmg);
-                if(DmgNumPrefab != null)
+                //Trigger floating text
+
+                if (DmgNumPrefab != null)
                 {
                     Vector3 pos = other.transform.position;
                     pos.y += 2;
@@ -59,7 +61,6 @@ public class Spell : MonoBehaviour
                     var go = Instantiate(DmgNumPrefab, pos, Quaternion.LookRotation(pos - cam.transform.position), other.transform);
                     go.GetComponent<TextMesh>().text = dmg.ToString();
                 }
-                //Trigger floating text
                 // Award player souls
                 if (enemyStats.IsDead) pStats.AddSouls(enemyStats.soulValue);
             }

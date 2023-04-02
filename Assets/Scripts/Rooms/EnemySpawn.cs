@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
+    enum PowerUpType
+    {
+        HealthUp,
+        DmgUp,
+        SoulUp,
+        None
+    };
+    [SerializeField]
+    PowerUpType powerType = new PowerUpType();
+
     [SerializeField]
     private float difficulty = 1.0f;
     public Transform spawnPoint;
@@ -36,6 +46,7 @@ public class EnemySpawn : MonoBehaviour
                 GameObject g = Instantiate(prefab, var, spawnPoint.rotation);
                 AIStat stats = g.GetComponent<AIStat>();
                 stats.ChangeDifficulty(difficulty);
+                stats.SetPowerType((int)powerType);
             }   
         }
     }

@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class AIStat : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private int powerType;
+    enum EnemyType
+    {
+        Melee,
+        Range,
+        Boss
+    };
+    [SerializeField]
+    EnemyType enemyType = new EnemyType();
+
     [SerializeField] private HealthBar healthbar;
     public float maxHealth = 10f;
     private float health;
@@ -28,7 +37,9 @@ public class AIStat : MonoBehaviour
         healthbar.UpdateHealthBar(maxHealth, health);
         if (health <= 0) isDead = true;
     }
-
+    public int GetPowerType => powerType;
+    public void SetPowerType(int type) => powerType = type;
+    public int GetEnemyType => (int)enemyType;
     public float SoulValue => soulValue;
     public float WalkSpeed => walkSpeed;
     public float RunSpeed => runSpeed;
