@@ -42,7 +42,7 @@ public class PlayerStatus : MonoBehaviour {
 
 	//SOUL HANLDING
 	public void SetDifficulty(float mod) => current_difficulty = mod;
-	public void AddSouls(float souls) => soulBalance += souls;
+	public void AddSouls(float souls) => soulBalance += souls * SoulMul;
 	public void RemoveSouls(float souls) => soulBalance -= souls;
 	public float Souls => soulBalance;
 	//Retirm soul multiplier with any temp pickup bonuses

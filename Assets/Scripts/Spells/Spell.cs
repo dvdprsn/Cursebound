@@ -22,6 +22,7 @@ public class Spell : MonoBehaviour
         myCollider = GetComponent<SphereCollider>();
         myCollider.isTrigger = true;
         myCollider.radius = spellToCast.SpellRadius;
+
         myRigidBody = GetComponent<Rigidbody>();
         myRigidBody.isKinematic = true;
         pStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>();
@@ -35,18 +36,20 @@ public class Spell : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //Enemy
-        if(dmgType == 1)
+
+        if (dmgType == 1)
         {
+            //If the spell hits an enemy
             if (other.gameObject.CompareTag("Enemy"))
             {
                 AIStat enemyStats = other.GetComponent<AIStat>();
                 // Could add player dmg multiplier here!
                 enemyStats.ApplyDamage(spellToCast.Damage * pStats.DmgMul);
                 // Award player souls
-                if (enemyStats.IsDead) pStats.AddSouls(enemyStats.soulValue * pStats.SoulMul);
+                if (enemyStats.IsDead) pStats.AddSouls(enemyStats.soulValue);
             }
-        } else // Player
+        }
+        else // Player
         {
             if (other.gameObject.CompareTag("Player"))
             {
@@ -54,7 +57,8 @@ public class Spell : MonoBehaviour
                 pStats.ApplyDamage(enemyStats.Dmg);
             }
         }
-        
+
+        // Prevents despawning in room colliders
         if (!other.gameObject.CompareTag("GameElement"))
         {
             Destroy(this.gameObject);

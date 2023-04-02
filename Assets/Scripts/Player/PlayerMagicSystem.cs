@@ -19,7 +19,6 @@ public class PlayerMagicSystem : MonoBehaviour
     {
         pStats = GetComponent<PlayerStatus>();
         pStats.SetCurrentMana(pStats.GetMaxMana);
-        //spellToCast.pStats = GetComponent<PlayerStatus>();
         animator = GetComponent<Animator>();
     }
 
@@ -47,9 +46,7 @@ public class PlayerMagicSystem : MonoBehaviour
 
             if (pStats.GetCurrentMana < pStats.GetMaxMana) pStats.SetCurrentMana(pStats.GetCurrentMana + pStats.GetManaRechargeRate * Time.deltaTime);
         }
-        
     }
-
     void CastSpell()
     {
         // CAST HERE

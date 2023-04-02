@@ -23,7 +23,7 @@ public class AIController : MonoBehaviour {
 	public float fov = 260.0f;
 	[SerializeField]
 	private float rotationSpeed = 5.0f;
-
+	[SerializeField]
 	private float attackSpeed = 0.8f;
 	private float gravity = 50.0f;
 
@@ -85,6 +85,7 @@ public class AIController : MonoBehaviour {
 	void Start () {
 		player = GameObject.FindGameObjectWithTag("Player");
 		controller = GetComponent<CharacterController>();
+		controller.detectCollisions = true;
 		animator = GetComponent<Animator>();
 		target = player.transform;
 		playerStatus = player.GetComponent<PlayerStatus>();
@@ -94,9 +95,9 @@ public class AIController : MonoBehaviour {
 	
 	public void ChangeState(State newState){
 		currentState = newState;
-		//Set all flags to False for animation
+		animator.SetBool("Attacking", false);
 	}
-
+	 
 	// == Conditions for State Machine == 
 	public Boolean ShouldRun()
     {
@@ -152,7 +153,8 @@ public class AIController : MonoBehaviour {
 		//if animation is not currently playing
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
-			animator.SetTrigger("Attack");
+			//animator.SetTrigger("Attack");
+			animator.SetBool("Attacking", true);
 			hasAttacked = false;
 			attackTimer = 0f;
 		}
@@ -161,6 +163,7 @@ public class AIController : MonoBehaviour {
 			if (type == EnemyType.Range)
 			{
 				Spell s = Instantiate(spell, castPoint.position, castPoint.rotation);
+				//Only damage players prevent friendly fire
 				s.SetDmgType(2);
 			}
 			else if (type == EnemyType.Melee)
