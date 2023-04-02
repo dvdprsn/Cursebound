@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04a8dcee47d1480bbf44391867a0580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 1.5
+  difficulty: 1
   spawnPoint: {fileID: 2462550877752383062}
   prefab: {fileID: 526999946717187607, guid: 0506cb5a6933d48daa81ec31f12e880a, type: 3}
   numToSpawn: 3

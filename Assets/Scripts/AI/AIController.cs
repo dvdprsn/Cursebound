@@ -134,16 +134,17 @@ public class AIController : MonoBehaviour {
     }
 	public void Run()
     {
+
 		animator.SetFloat("Speed", 1f, 0.1f, Time.deltaTime);
 		Vector3 direction = (target.position - controller.transform.position).normalized;
-		moveDirection = direction * 3f;
+		moveDirection = direction * stats.RunSpeed;
 		RotateTowards(target.position, false);
 	}
 	public void Walk()
     {
 		animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
 		Vector3 direction = (target.position - controller.transform.position).normalized;
-		moveDirection = direction * 1.8f;
+		moveDirection = direction * stats.WalkSpeed;
 		RotateTowards(target.position, false);
 	}
 	public void Attack()

@@ -10,6 +10,8 @@ public class Spell : MonoBehaviour
     private SphereCollider myCollider;
     private Rigidbody myRigidBody;
     private PlayerStatus pStats;
+    private Camera cam;
+    public GameObject DmgNumPrefab;
 
     private int dmgType;
 
@@ -19,6 +21,7 @@ public class Spell : MonoBehaviour
     }
     private void Awake()
     {
+        cam = Camera.main;
         myCollider = GetComponent<SphereCollider>();
         myCollider.isTrigger = true;
         myCollider.radius = spellToCast.SpellRadius;
@@ -34,6 +37,7 @@ public class Spell : MonoBehaviour
         if (spellToCast.Speed > 0) transform.Translate(Vector3.forward * spellToCast.Speed * Time.deltaTime);
 
     }
+
     private void OnTriggerEnter(Collider other)
     {
         // Spell only interacts with enemy type
@@ -43,8 +47,19 @@ public class Spell : MonoBehaviour
             if (other.gameObject.CompareTag("Enemy"))
             {
                 AIStat enemyStats = other.GetComponent<AIStat>();
+                float dmg = spellToCast.Damage * pStats.DmgMul;
                 // Could add player dmg multiplier here!
-                enemyStats.ApplyDamage(spellToCast.Damage * pStats.DmgMul);
+                enemyStats.ApplyDamage(dmg);
+                Debug.Log("Enemy Damaged: " + dmg);
+                if(DmgNumPrefab != null)
+                {
+                    Vector3 pos = other.transform.position;
+                    pos.y += 2;
+                    pos.z += 1;
+                    var go = Instantiate(DmgNumPrefab, pos, Quaternion.LookRotation(pos - cam.transform.position), other.transform);
+                    go.GetComponent<TextMesh>().text = dmg.ToString();
+                }
+                //Trigger floating text
                 // Award player souls
                 if (enemyStats.IsDead) pStats.AddSouls(enemyStats.soulValue);
             }

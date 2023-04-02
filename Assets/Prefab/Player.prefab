@@ -1192,8 +1192,6 @@ MonoBehaviour:
   tempDmgBoost: 0
   tempSoulBoost: 0
   soulBalance: 0
-  spawnPoint: {fileID: 0}
-  shop: {fileID: 0}
 --- !u!1 &4785192358879308940
 GameObject:
   m_ObjectHideFlags: 0

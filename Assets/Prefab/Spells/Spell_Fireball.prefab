@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellToCast: {fileID: 11400000, guid: ae9bcbb17e5bb4732b333f5629fd2faf, type: 2}
+  DmgNumPrefab: {fileID: 3264035920991312079, guid: f129ac11732814c44b2623a31ea9d486, type: 3}
 --- !u!1 &3539361570570079439
 GameObject:
   m_ObjectHideFlags: 0
