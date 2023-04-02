@@ -19,8 +19,8 @@ public class PlayerStatus : MonoBehaviour {
 	[SerializeField] private float maxMana = 10f;
 	[SerializeField] private float manaRecharageRate = 2f;
 	[SerializeField] private float timeToCast = 1f;
-	private float tempDmgBoost = 0f;
-	private float tempSoulBoost = 0f;
+	[SerializeField] private float tempDmgBoost = 0f;
+	[SerializeField] private float tempSoulBoost = 0f;
 
 	private float current_difficulty = 1f;
 

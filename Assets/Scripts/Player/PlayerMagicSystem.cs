@@ -19,7 +19,7 @@ public class PlayerMagicSystem : MonoBehaviour
     {
         pStats = GetComponent<PlayerStatus>();
         pStats.SetCurrentMana(pStats.GetMaxMana);
-        spellToCast.pStats = GetComponent<PlayerStatus>();
+        //spellToCast.pStats = GetComponent<PlayerStatus>();
         animator = GetComponent<Animator>();
     }
 
@@ -27,8 +27,6 @@ public class PlayerMagicSystem : MonoBehaviour
     {
         if(!pStats.isDead)
         {
-            //ResetAnimationTriggers();
-
             bool isCastingButtonPressed = Input.GetKey(KeyCode.Mouse0);
             bool hasMana = pStats.GetCurrentMana - spellToCast.spellToCast.ManaCost >= 0f;
             if (!castingMagic && isCastingButtonPressed && hasMana)
@@ -37,7 +35,6 @@ public class PlayerMagicSystem : MonoBehaviour
                 pStats.SetCurrentMana(pStats.GetCurrentMana - spellToCast.spellToCast.ManaCost);
                 currentCastTimer = 0;
                 animator.SetTrigger("Attack");
-                //animator.ChangeAnimationState("Attack");
                 CastSpell();
                 
             }
@@ -56,6 +53,7 @@ public class PlayerMagicSystem : MonoBehaviour
     void CastSpell()
     {
         // CAST HERE
-        Instantiate(spellToCast, castPoint.position, castPoint.rotation);
+        Spell s = Instantiate(spellToCast, castPoint.position, castPoint.rotation);
+        s.SetDmgType(1);
     }
 }

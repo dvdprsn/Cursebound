@@ -2,16 +2,42 @@ using UnityEngine;
 using System;
 
 public class AIController : MonoBehaviour {
+	enum PowerUpType
+	{
+		HealthUp,
+		DmgUp,
+		SoulUp,
+		None
+	};
+	[SerializeField]
+	PowerUpType powerType = new PowerUpType();
+	enum EnemyType
+	{
+		Melee,
+		Range,
+		Boss
+	};
+	[SerializeField]
+	EnemyType type = new EnemyType();
 
 	public float fov = 260.0f;
+	[SerializeField]
 	private float rotationSpeed = 5.0f;
 
 	private float attackSpeed = 0.8f;
 	private float gravity = 50.0f;
 
+
+	[SerializeField]
 	private float attackDistance = 1.5f;
+	[SerializeField]
 	private float sightDistance = 14.0f;
+	[SerializeField]
 	private float walkDistance = 2.5f;
+
+	public Transform castPoint;
+	public Spell spell;
+	public PowerUp powerupPrefab;
 
 	private GameObject player;
 
@@ -132,17 +158,28 @@ public class AIController : MonoBehaviour {
 		}
 		if((attackTimer >= attackSpeed) && !hasAttacked)
         {
-			playerStatus.ApplyDamage(stats.Dmg);
+			if (type == EnemyType.Range)
+			{
+				Spell s = Instantiate(spell, castPoint.position, castPoint.rotation);
+				s.SetDmgType(2);
+			}
+			else if (type == EnemyType.Melee)
+            {
+				playerStatus.ApplyDamage(stats.Dmg);
+			}
 			hasAttacked = true;
 		}
-
 	}
+
 	public void BeDead(){
 		if (deathStarted)
 		{
 			controller.enabled = false;
 			if (animator.GetCurrentAnimatorStateInfo(0).IsName("Done"))
 			{
+				PowerUp p = Instantiate(powerupPrefab, castPoint.position, castPoint.rotation);
+				p.SetType((int)powerType);
+
 				Destroy(this.gameObject);
 			}
 		}

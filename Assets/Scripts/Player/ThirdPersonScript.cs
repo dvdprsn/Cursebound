@@ -64,7 +64,6 @@ public class ThirdPersonScript : MonoBehaviour
                     //Running 
                     controller.Move(moveDirection.normalized * runSpeed * Time.deltaTime);
                     Run();
-
                 }
                 else
                 {

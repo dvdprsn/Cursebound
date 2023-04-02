@@ -9,7 +9,14 @@ public class Spell : MonoBehaviour
     public SpellSO spellToCast;
     private SphereCollider myCollider;
     private Rigidbody myRigidBody;
-    public PlayerStatus pStats;
+    private PlayerStatus pStats;
+
+    private int dmgType;
+
+    public void SetDmgType(int type)
+    {
+        dmgType = type;
+    }
     private void Awake()
     {
         myCollider = GetComponent<SphereCollider>();
@@ -17,7 +24,7 @@ public class Spell : MonoBehaviour
         myCollider.radius = spellToCast.SpellRadius;
         myRigidBody = GetComponent<Rigidbody>();
         myRigidBody.isKinematic = true;
-
+        pStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>();
         Destroy(this.gameObject, spellToCast.LifeTime);
 
     }
@@ -28,20 +35,26 @@ public class Spell : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        //Enemy
+        if(dmgType == 1)
         {
-            AIStat enemyStats = other.GetComponent<AIStat>();
-            // Could add player dmg multiplier here!
-            enemyStats.ApplyDamage(spellToCast.Damage * pStats.DmgMul);
-            // Award player souls
-            if(enemyStats.IsDead) pStats.AddSouls(enemyStats.soulValue * pStats.SoulMul);
-        }
-        //For enemy spell
-        if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                AIStat enemyStats = other.GetComponent<AIStat>();
+                // Could add player dmg multiplier here!
+                enemyStats.ApplyDamage(spellToCast.Damage * pStats.DmgMul);
+                // Award player souls
+                if (enemyStats.IsDead) pStats.AddSouls(enemyStats.soulValue * pStats.SoulMul);
+            }
+        } else // Player
         {
-
+            if (other.gameObject.CompareTag("Player"))
+            {
+                AIStat enemyStats = GameObject.FindGameObjectWithTag("Enemy").GetComponent<AIStat>();
+                pStats.ApplyDamage(enemyStats.Dmg);
+            }
         }
-
+        
         if (!other.gameObject.CompareTag("GameElement"))
         {
             Destroy(this.gameObject);
