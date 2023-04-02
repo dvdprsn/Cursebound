@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 1073620531025531052}
   - component: {fileID: 1073620531025531053}
   - component: {fileID: 1073620531025531050}
+  - component: {fileID: 1703013578}
   m_Layer: 0
   m_Name: Mutant
   m_TagString: Enemy
@@ -210,6 +211,20 @@ MonoBehaviour:
   health: 10
   dmg: 5
   soulValue: 5
+--- !u!136 &1703013578
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155143283853159929}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.54
+  m_Height: 1.97
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1 &817818452144978056
 GameObject:
   m_ObjectHideFlags: 0

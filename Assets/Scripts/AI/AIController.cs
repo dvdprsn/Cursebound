@@ -42,6 +42,7 @@ public class AIController : MonoBehaviour {
 	private GameObject player;
 
 	private CharacterController controller;
+	private CapsuleCollider capsule;
 	private PlayerStatus	playerStatus;
 	private Transform		target;
 	private Vector3			moveDirection = new Vector3(0,0,0);
@@ -85,7 +86,8 @@ public class AIController : MonoBehaviour {
 	void Start () {
 		player = GameObject.FindGameObjectWithTag("Player");
 		controller = GetComponent<CharacterController>();
-		controller.detectCollisions = true;
+		controller.detectCollisions = false;
+		capsule = GetComponent<CapsuleCollider>();
 		animator = GetComponent<Animator>();
 		target = player.transform;
 		playerStatus = player.GetComponent<PlayerStatus>();
@@ -153,7 +155,6 @@ public class AIController : MonoBehaviour {
 		//if animation is not currently playing
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
-			//animator.SetTrigger("Attack");
 			animator.SetBool("Attacking", true);
 			hasAttacked = false;
 			attackTimer = 0f;
@@ -182,7 +183,6 @@ public class AIController : MonoBehaviour {
 			{
 				PowerUp p = Instantiate(powerupPrefab, castPoint.position, castPoint.rotation);
 				p.SetType((int)powerType);
-
 				Destroy(this.gameObject);
 			}
 		}
@@ -191,6 +191,7 @@ public class AIController : MonoBehaviour {
 			animator.SetTrigger("Dead");
 			deathStarted = true;
 			this.isControllable = false;
+			capsule.enabled = false;
 		}
 	}
 	public void BeIdle(){

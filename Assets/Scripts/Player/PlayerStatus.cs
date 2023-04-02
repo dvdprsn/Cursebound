@@ -29,8 +29,8 @@ public class PlayerStatus : MonoBehaviour {
 	private bool dead = false;
 
 	private ThirdPersonScript controller;
-	public Transform spawnPoint;
-	public Canvas shop; 
+	private Transform spawnPoint;
+	private Canvas shop; 
     private void OnGUI()
     {
 		GUI.Box(new Rect(Screen.width - 130, 15, 100, 80), "Heatlh: " + health.ToString() + "\n Mana: " + currentMana.ToString() + "\n Souls: " + soulBalance.ToString() + "\n Difficulty: " + current_difficulty.ToString());
@@ -72,6 +72,8 @@ public class PlayerStatus : MonoBehaviour {
     {
 		controller = GetComponent<ThirdPersonScript>();
 		health = maxHealth;
+		shop = GameObject.FindGameObjectWithTag("UI").GetComponent<Canvas>();
+		spawnPoint = GameObject.FindGameObjectWithTag("Respawn").transform;
     }
 
 	public void ApplyDamage(float damage){
