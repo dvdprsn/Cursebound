@@ -11,7 +11,6 @@ public class HideRoomRoof : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             roof.SetActive(false);
-
         }
     }
     private void OnTriggerExit(Collider other)

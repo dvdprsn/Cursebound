@@ -36,7 +36,7 @@ public class Spell : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-
+        // Spell only interacts with enemy type
         if (dmgType == 1)
         {
             //If the spell hits an enemy
@@ -49,7 +49,7 @@ public class Spell : MonoBehaviour
                 if (enemyStats.IsDead) pStats.AddSouls(enemyStats.soulValue);
             }
         }
-        else // Player
+        else // Only for player
         {
             if (other.gameObject.CompareTag("Player"))
             {
