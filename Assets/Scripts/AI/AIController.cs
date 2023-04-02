@@ -127,11 +127,12 @@ public class AIController : MonoBehaviour {
 		//If boss
 		if(stats.GetEnemyType == 2)
         {
+			//Set ranged
 			stats.SetEnemyType(1);
 			Attack();
+			//Set boss
 			stats.SetEnemyType(2);
 			return;
-
         }
 		animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
 		Vector3 direction = (target.position - controller.transform.position).normalized;
