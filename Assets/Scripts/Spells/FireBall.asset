@@ -16,3 +16,4 @@ MonoBehaviour:
   LifeTime: 2
   Speed: 15
   SpellRadius: 0.5
+  Damage: 5

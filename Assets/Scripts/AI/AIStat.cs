@@ -40,6 +40,7 @@ public class AIStat : MonoBehaviour
     public int GetPowerType => powerType;
     public void SetPowerType(int type) => powerType = type;
     public int GetEnemyType => (int)enemyType;
+    public void SetEnemyType(int type) => enemyType = (EnemyType)type;
     public float SoulValue => soulValue;
     public float WalkSpeed => walkSpeed;
     public float RunSpeed => runSpeed;

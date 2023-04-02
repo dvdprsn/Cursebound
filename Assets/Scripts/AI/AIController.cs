@@ -124,6 +124,15 @@ public class AIController : MonoBehaviour {
 	}
 	public void Walk()
     {
+		//If boss
+		if(stats.GetEnemyType == 2)
+        {
+			stats.SetEnemyType(1);
+			Attack();
+			stats.SetEnemyType(2);
+			return;
+
+        }
 		animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
 		Vector3 direction = (target.position - controller.transform.position).normalized;
 		moveDirection = direction * stats.WalkSpeed;
@@ -152,7 +161,7 @@ public class AIController : MonoBehaviour {
 				s.SetDmgType(2);
 			}
 			//Is melee enemy
-			else if (stats.GetEnemyType == 0)
+			else if (stats.GetEnemyType == 0 || stats.GetEnemyType == 2)
             {
 				playerStatus.ApplyDamage(stats.Dmg);
 			}
