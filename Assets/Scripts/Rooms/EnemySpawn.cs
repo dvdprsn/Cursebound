@@ -36,13 +36,15 @@ public class EnemySpawn : MonoBehaviour
 
             // If the room is not cleared entirely it will respawn the room 
             // if (numToSpawn != 0) numToSpawn = Random.Range(numToSpawn, numToSpawn + 3);
+            Vector3 var = spawnPoint.position;
+            //var.x += Random.Range(0, -5);
+            //var.z += Random.Range(0, 5);
 
             //Maybe apply difficulty here and round up?
             for (int x = 0; x < numToSpawn; x++)
             {
-                Vector3 var = spawnPoint.position;
-                var.x += Random.Range(0, -7);
-                var.z += Random.Range(0, 7);
+                var.x += 1;
+                var.z += 1;
                 GameObject g = Instantiate(prefab, var, spawnPoint.rotation);
                 AIStat stats = g.GetComponent<AIStat>();
                 stats.ChangeDifficulty(difficulty);

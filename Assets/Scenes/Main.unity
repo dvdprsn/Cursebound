@@ -788,7 +788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8060271218557950799, guid: 6deda0d4b11640b4f981e591ef19d297, type: 3}
       propertyPath: difficulty
-      value: 1.5
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: 8060271218557950799, guid: 6deda0d4b11640b4f981e591ef19d297, type: 3}
       propertyPath: numToSpawn
@@ -2272,7 +2272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8060271218557950799, guid: 6deda0d4b11640b4f981e591ef19d297, type: 3}
       propertyPath: difficulty
-      value: 2
+      value: 2.7
       objectReference: {fileID: 0}
     - target: {fileID: 8060271218557950799, guid: 6deda0d4b11640b4f981e591ef19d297, type: 3}
       propertyPath: numToSpawn
@@ -4217,7 +4217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4727322162049645999, guid: 6794d865edbaa9e43859117ac260ea6e, type: 3}
       propertyPath: difficulty
-      value: 2.7
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4727322162049645999, guid: 6794d865edbaa9e43859117ac260ea6e, type: 3}
       propertyPath: numToSpawn
@@ -4265,7 +4265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5460668683086437156, guid: 6794d865edbaa9e43859117ac260ea6e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 115.310005
+      value: 115.55
       objectReference: {fileID: 0}
     - target: {fileID: 5460668683086437156, guid: 6794d865edbaa9e43859117ac260ea6e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6123,7 +6123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4727322162049645999, guid: f8030316cfa135242937a835eb5cb14f, type: 3}
       propertyPath: difficulty
-      value: 1.7
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4727322162049645999, guid: f8030316cfa135242937a835eb5cb14f, type: 3}
       propertyPath: numToSpawn
@@ -7383,7 +7383,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4727322162049645999, guid: 6794d865edbaa9e43859117ac260ea6e, type: 3}
       propertyPath: difficulty
-      value: 2
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 4727322162049645999, guid: 6794d865edbaa9e43859117ac260ea6e, type: 3}
       propertyPath: numToSpawn
@@ -9195,7 +9195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 895578040245858486, guid: 6deda0d4b11640b4f981e591ef19d297, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.898
+      value: 3.55
       objectReference: {fileID: 0}
     - target: {fileID: 988341219441541381, guid: 6deda0d4b11640b4f981e591ef19d297, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -9507,7 +9507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8060271218557950799, guid: 6deda0d4b11640b4f981e591ef19d297, type: 3}
       propertyPath: difficulty
-      value: 1.3
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8060271218557950799, guid: 6deda0d4b11640b4f981e591ef19d297, type: 3}
       propertyPath: numToSpawn
@@ -9645,7 +9645,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4727322162049645999, guid: f8030316cfa135242937a835eb5cb14f, type: 3}
       propertyPath: difficulty
-      value: 2.2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4727322162049645999, guid: f8030316cfa135242937a835eb5cb14f, type: 3}
       propertyPath: numToSpawn
@@ -10890,7 +10890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4727322162049645999, guid: 6794d865edbaa9e43859117ac260ea6e, type: 3}
       propertyPath: difficulty
-      value: 3.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4727322162049645999, guid: 6794d865edbaa9e43859117ac260ea6e, type: 3}
       propertyPath: numToSpawn
@@ -11538,8 +11538,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1669952201}
     - target: {fileID: 6258455516195400627, guid: 532520a191f0bbd49bd9efc6bb529a0d, type: 3}
+      propertyPath: maxMana
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258455516195400627, guid: 532520a191f0bbd49bd9efc6bb529a0d, type: 3}
+      propertyPath: soulMul
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258455516195400627, guid: 532520a191f0bbd49bd9efc6bb529a0d, type: 3}
       propertyPath: dmgMulti
-      value: 1
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258455516195400627, guid: 532520a191f0bbd49bd9efc6bb529a0d, type: 3}
+      propertyPath: maxHealth
+      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 532520a191f0bbd49bd9efc6bb529a0d, type: 3}

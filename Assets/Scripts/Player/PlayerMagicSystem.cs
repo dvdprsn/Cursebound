@@ -13,7 +13,6 @@ public class PlayerMagicSystem : MonoBehaviour
     public Animator animator;
     private PlayerStatus pStats;
 
-
     private void Awake()
     {
         pStats = GetComponent<PlayerStatus>();
@@ -39,7 +38,6 @@ public class PlayerMagicSystem : MonoBehaviour
             {
                 currentCastTimer += Time.deltaTime;
                 if (currentCastTimer > pStats.GetTimeToCast) castingMagic = false;
-
             }
 
             if (pStats.GetCurrentMana < pStats.GetMaxMana) pStats.SetCurrentMana(pStats.GetCurrentMana + pStats.GetManaRechargeRate * Time.deltaTime);

@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43258eae685f44c889fb28cd1a60dda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fov: 260
+  fov: 360
   rotationSpeed: 10
   attackSpeed: 0.6
   attackDistance: 8
