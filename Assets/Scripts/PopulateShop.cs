@@ -25,11 +25,11 @@ public class PopulateShop : MonoBehaviour
     }
     private void Start()
     {
-        CreateButton("Max Health +10", 1, 0);
-        CreateButton("Dmg Mul +0.5", 1, 1);
-        CreateButton("Soul Mul +0.5", 1, 2);
-        CreateButton("Max Mana +10", 1, 3);
-        CreateButton("Mana Rate +0.2", 1, 4);
+        CreateButton("Max Health +10", 10, 0);
+        CreateButton("Dmg Mul +0.2", 15, 1);
+        CreateButton("Soul Mul +0.2", 30, 2);
+        CreateButton("Max Mana +10", 10, 3);
+        CreateButton("Mana Rate +0.1", 5, 4);
 
     }
     public void CreateButton(string text, int price, int idx)

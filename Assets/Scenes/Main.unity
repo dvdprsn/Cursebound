@@ -11539,19 +11539,19 @@ PrefabInstance:
       objectReference: {fileID: 1669952201}
     - target: {fileID: 6258455516195400627, guid: 532520a191f0bbd49bd9efc6bb529a0d, type: 3}
       propertyPath: maxMana
-      value: 500
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6258455516195400627, guid: 532520a191f0bbd49bd9efc6bb529a0d, type: 3}
       propertyPath: soulMul
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6258455516195400627, guid: 532520a191f0bbd49bd9efc6bb529a0d, type: 3}
       propertyPath: dmgMulti
-      value: 50
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6258455516195400627, guid: 532520a191f0bbd49bd9efc6bb529a0d, type: 3}
       propertyPath: maxHealth
-      value: 500
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 532520a191f0bbd49bd9efc6bb529a0d, type: 3}

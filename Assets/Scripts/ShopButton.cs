@@ -31,7 +31,7 @@ public class ShopButton : MonoBehaviour
     {
         if (stats.Souls >= cost)
         {
-            stats.AddDmgMul(0.5f);
+            stats.AddDmgMul(0.2f);
             stats.RemoveSouls(cost);
         }
         else
@@ -43,7 +43,7 @@ public class ShopButton : MonoBehaviour
     {
         if (stats.Souls >= cost)
         {
-            stats.AddSoulMul(0.5f);
+            stats.AddSoulMul(0.2f);
             stats.RemoveSouls(cost);
         }
         else
@@ -68,7 +68,7 @@ public class ShopButton : MonoBehaviour
     {
         if (stats.Souls >= cost)
         {
-            stats.AddManaRate(0.2f);
+            stats.AddManaRate(0.1f);
             stats.RemoveSouls(cost);
         }
         else
