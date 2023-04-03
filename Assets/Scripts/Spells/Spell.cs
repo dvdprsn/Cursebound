@@ -74,8 +74,9 @@ public class Spell : MonoBehaviour
             }
         }
 
-        // Prevents despawning in room colliders
-        if (!other.gameObject.CompareTag("GameElement"))
+        // Prevents despawning in room colliders or powerups
+        //Is not GameElement and is not PowerUp
+        if (!other.gameObject.CompareTag("GameElement") && !other.gameObject.CompareTag("PowerUp"))
         {
             Destroy(this.gameObject);
         }

@@ -8,6 +8,7 @@ TagManager:
   - GameElement
   - Door
   - UI
+  - PowerUp
   layers:
   - Default
   - TransparentFX

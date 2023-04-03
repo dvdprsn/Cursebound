@@ -54,9 +54,12 @@ public class EnemySpawn : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            GameObject[] powerUps = GameObject.FindGameObjectsWithTag("PowerUp");
+            //Destroy all powerups and enemies if they remain on room exit 
+            // Enemies is just a saftey thing
+            foreach (GameObject g in enemies) Destroy(g);
+            foreach (GameObject g in powerUps) Destroy(g);
 
-            //if(enemies.Length != numToSpawn) numToSpawn = enemies.Length;
-            foreach(GameObject g in enemies) Destroy(g);
 
         }
 
