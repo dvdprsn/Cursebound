@@ -1183,7 +1183,7 @@ MonoBehaviour:
   health: 10
   maxHealth: 10
   deathCount: 0
-  dmgMulti: 5
+  dmgMulti: 1
   soulMul: 1
   currentMana: 0
   maxMana: 10
